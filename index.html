@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group 13 — Enforcement Analytics</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="14" stroke="#06b6d4" stroke-width="2"/>
+                    <path d="M10 16h12M16 10v12" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="16" cy="16" r="4" fill="#06b6d4" opacity="0.3"/>
+                </svg>
+                Group 13
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#temporal">Temporal</a></li>
+                <li><a href="#insights">Insights</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero" id="overview">
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                BITRE Road Safety Enforcement Data
+            </div>
+            <h1>Uncovering Patterns in<br>Road Safety Enforcement</h1>
+            <p>An interactive exploration of enforcement data across Australian jurisdictions that reveals where, when, and who is most affected.</p>
+        </div>
+    </section>
+
+    <!-- Temporal section -->
+    <section class="section" id="temporal">
+        <div class="section-header">
+            <span class="section-tag">Temporal Analysis</span>
+            <h2>The January Anomaly</h2>
+            <p class="lead">Monthly fine distribution reveals a staggering concentration in January that accounts for 89% of the annual total.</p>
+        </div>
+        <div class="chart-grid">
+            <div class="chart-card full-width">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Fines per Month</div>
+                        <div class="chart-subtitle">Total monetary penalties by calendar month</div>
+                    </div>
+                    <div class="chart-controls">
+                        <button class="btn-toggle active" data-view="all">Show All</button>
+                        <button class="btn-toggle" data-view="exclude">Exclude Jan Outlier</button>
+                        <button class="btn-toggle" data-view="log">Log Scale</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="monthlyChart"></div>
+                <div class="annotation">
+                    <svg class="annotation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <div>
+                        <strong>Data Quality Note:</strong> January records <strong>56.5M</strong> in fines while all other months average ~640K. This 88× difference suggests either an annual rollup in Month 1, a decimal error, or a genuine single-month enforcement blitz. Toggle views above to explore both perspectives.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insights section -->
+    <section class="section" id="insights">
+        <div class="section-header">
+            <span class="section-tag">Key Findings</span>
+            <h2>Data-Driven Story</h2>
+            <p class="lead">Synthesising the visualisations above, several critical narratives emerge about Australian road safety enforcement in 2023.</p>
+        </div>
+        <div class="chart-grid two-col">
+            <div class="chart-card">
+                <div class="chart-title" style="margin-bottom:1.5rem">The Speeding Epidemic</div>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7; margin-bottom:1rem">
+                    Speeding fines dominate every jurisdiction and age group, comprising <strong style="color:var(--accent-rose)">82%</strong> of all penalties. The 40-64 age group alone contributes $11.7M in speed fines and more than all other offence types combined across all ages.
+                </p>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7">
+                    However, arrests for speeding are minimal (228 total), suggesting enforcement relies heavily on automated detection rather than physical interception.
+                </p>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title" style="margin-bottom:1.5rem">The Unlicensed Driving Paradox</div>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7; margin-bottom:1rem">
+                    Unlicensed driving generates relatively few fines ($44K) but drives <strong style="color:var(--accent-amber)">7,653 arrests</strong> / 83% of all arrests. This inverse relationship (low fines, high arrests) indicates unlicensed driving is treated as a serious criminal matter rather than a revenue-raising offence.
+                </p>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7">
+                    The 26-39 age group has the highest unlicensed arrest count (3,876), possibly reflecting licence suspensions from prior offences.
+                </p>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title" style="margin-bottom:1.5rem">Urban vs Rural Divide</div>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7; margin-bottom:1rem">
+                    Major Cities account for <strong style="color:var(--accent-cyan)">65%</strong> of all fines, but per-capita enforcement intensity is higher in regional areas when adjusted for population. Remote Australia shows disproportionately high arrest rates relative to fines.
+                </p>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7">
+                    Very Remote Australia has minimal absolute numbers but the highest ratio of arrests to fines, suggesting limited policing resources are focused on serious offences only.
+                </p>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title" style="margin-bottom:1.5rem">Data Quality & Transparency</div>
+                <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7; margin-bottom:1rem">
+                    Significant gaps exist in the dataset: NSW, QLD, and VIC report <strong style="color:var(--accent-violet)">zero arrests</strong>, which contradicts known policing activity.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Data sourced from <a href="https://www.bitre.gov.au" target="_blank">BITRE (Bureau of Infrastructure and Transport Research Economics)</a> · Police Enforcement Dataset</p>
+        <p style="margin-top:0.5rem; font-size:0.8rem;">Group 13 Group Project </p>
+    </footer>
+
+    <div class="d3-tooltip" id="tooltip"></div>
+
+    <script src="js/charts.js"></script>
+</body>
+</html>
