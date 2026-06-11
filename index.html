@@ -85,6 +85,7 @@
                         <button class="btn-toggle active" data-view="all">Show All</button>
                         <button class="btn-toggle" data-view="exclude">Exclude Jan Outlier</button>
                         <button class="btn-toggle" data-view="log">Log Scale</button>
+                        <select class="year-selector" data-chart="monthly" aria-label="Monthly year selection"></select>
                     </div>
                 </div>
                 <div class="chart-container" id="monthlyChart"></div>
@@ -93,7 +94,7 @@
                         <path d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <div>
-                        <strong>Data Quality Note:</strong> January records <strong>56.5M</strong> in fines while all other months average ~640K. This 88× difference suggests either an annual rollup in Month 1, a decimal error, or a genuine single-month enforcement blitz. Toggle views above to explore both perspectives.
+                        <strong>Data Quality Note:</strong> January records <strong>56.5M</strong> in fines while all other months average ~640K.
                     </div>
                 </div>
             </div>
@@ -114,6 +115,9 @@
                         <div class="chart-title">Fines by Jurisdiction</div>
                         <div class="chart-subtitle">Absolute volume comparison (AUD)</div>
                     </div>
+                    <div class="chart-controls">
+                        <select class="year-selector" data-chart="jurisdictionFines" aria-label="Jurisdiction fines year selection"></select>
+                    </div>
                 </div>
                 <div class="chart-container" id="jurisdictionFinesChart"></div>
             </div>
@@ -126,6 +130,7 @@
                     <div class="chart-controls">
                         <button class="btn-toggle active" data-metric="arrests">Arrests</button>
                         <button class="btn-toggle" data-metric="charges">Charges</button>
+                        <select class="year-selector" data-chart="jurisdictionArrests" aria-label="Jurisdiction arrests year selection"></select>
                     </div>
                 </div>
                 <div class="chart-container" id="jurisdictionArrestsChart"></div>
@@ -159,6 +164,8 @@
                     <div class="chart-controls">
                         <button class="btn-toggle active" data-age-view="fines">Fines</button>
                         <button class="btn-toggle" data-age-view="arrests">Arrests</button>
+                        <select class="age-selector" data-chart="ageGroup" aria-label="Age selection"></select>
+                        <select class="year-selector" data-chart="ageGroup" aria-label="Age group year selection"></select>
                     </div>
                 </div>
                 <div class="chart-container" id="ageGroupChart"></div>
@@ -174,6 +181,7 @@
                         <button class="btn-toggle" data-heatmap="mobile">Mobile</button>
                         <button class="btn-toggle" data-heatmap="seatbelt">Seatbelt</button>
                         <button class="btn-toggle" data-heatmap="unlicensed">Unlicensed</button>
+                        <select class="year-selector" data-chart="heatmap" aria-label="Heatmap year selection"></select>
                     </div>
                 </div>
                 <div class="chart-container" id="heatmapChart"></div>
@@ -198,6 +206,7 @@
                     <div class="chart-controls">
                         <button class="btn-toggle active" data-line="location">By Location</button>
                         <button class="btn-toggle" data-line="age">By Age Group</button>
+                        <select class="year-selector" data-chart="line" aria-label="Line chart year selection"></select>
                     </div>
                 </div>
                 <div class="chart-container" id="lineChart"></div>

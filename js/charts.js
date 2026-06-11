@@ -1,12 +1,29 @@
 const tooltip = d3.select("#tooltip");
 const formatNumber = d3.format(",.0f");
 const formatCurrency = d => "$" + d3.format(",.0f")(d);
-const formatCompact = d3.format("~s");
+const formatCompact = d => {
+    if (d >= 1e6) return (d / 1e6).toFixed(2) + "M";
+    if (d >= 1e3) return (d / 1e3).toFixed(2) + "K";
+    return d.toFixed(2);
+};
 
 let monthlyData = [];
 let jurisdictionData = [];
 let fineGrainedData = [];
-let totalsData = {};
+let totalsData = [];
+
+const yearSelections = {
+    monthly: 'All',
+    jurisdictionFines: 'All',
+    jurisdictionArrests: 'All',
+    ageGroup: 'All',
+    heatmap: 'All',
+    line: 'All'
+};
+
+const ageSelections = {
+    ageGroup: 'All'
+};
 
 let currentJurisdictionMetric = 'arrests';
 let currentAgeView = 'fines';
@@ -21,43 +38,61 @@ const heatmapMetrics = {
 };
 
 function loadData() {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const getField = (row, ...keys) => {
+        for (const key of keys) {
+            if (row[key] !== undefined) return row[key];
+        }
+        return undefined;
+    };
+
     return Promise.all([
-        d3.csv("data/monthly_fines.csv", d => ({
-            month: +d.Month,
-            name: d.Month_Name.substring(0, 3),
-            fines: +d.Fines
-        })),
+        d3.csv("data/monthly_fines.csv", d => {
+            const year = getField(d, 'Year', 'YEAR', 'year');
+            const monthValue = getField(d, 'Month', 'Month (Number)', 'month');
+            const month = monthValue ? +monthValue : null;
+            return {
+                year: year ? +year : null,
+                month: month,
+                name: month && month >= 1 && month <= 12 ? monthNames[month - 1] : (getField(d, 'Month_Name') || ''),
+                fines: +getField(d, 'Fines', 'Sum(FINES)', 'Sum_FINES', 'sum_fines') || 0
+            };
+        }),
         d3.csv("data/jurisdiction_data.csv", d => ({
-            name: d.Jurisdiction,
-            fines: +d.Fines,
-            arrests: +d.Arrests,
-            charges: +d.Charges
+            year: getField(d, 'Year', 'YEAR', 'year') ? +getField(d, 'Year', 'YEAR', 'year') : null,
+            name: getField(d, 'Jurisdiction', 'JURISDICTION', 'jurisdiction') || '',
+            fines: +getField(d, 'Fines', 'Sum(FINES)', 'Sum_FINES', 'sum_fines') || 0,
+            arrests: +getField(d, 'Arrests', 'Sum(ARRESTS)', 'Sum_ARRESTS', 'sum_arrests') || 0,
+            charges: +getField(d, 'Charges', 'Sum(CHARGES)', 'Sum_CHARGES', 'sum_charges') || 0
         })),
         d3.csv("data/fine_grained_data.csv", d => ({
-            loc: d.Location,
-            age: d.Age_Group,
-            metric: d.Metric,
-            fines: +d.Fines,
-            arrests: +d.Arrests,
-            charges: +d.Charges
+            year: getField(d, 'Year', 'YEAR', 'year') ? +getField(d, 'Year', 'YEAR', 'year') : null,
+            loc: getField(d, 'Location', 'LOCATION', 'location') || '',
+            age: getField(d, 'Age_Group', 'AGE_GROUP', 'age_group') || getField(d, 'Age', 'age') || '',
+            metric: getField(d, 'Metric', 'METRIC', 'metric') || '',
+            fines: +getField(d, 'Fines', 'Sum(FINES)', 'Sum_FINES', 'sum_fines') || 0,
+            arrests: +getField(d, 'Arrests', 'Sum(ARRESTS)', 'Sum_ARRESTS', 'sum_arrests') || 0,
+            charges: +getField(d, 'Charges', 'Sum(CHARGES)', 'Sum_CHARGES', 'sum_charges') || 0
         })),
         d3.csv("data/totals.csv", d => ({
-            fines: +d.Sum_FINES,
-            arrests: +d.Sum_ARRESTS,
-            charges: +d.Sum_CHARGES
+            year: getField(d, 'Year', 'YEAR', 'year') ? +getField(d, 'Year', 'YEAR', 'year') : null,
+            fines: +getField(d, 'Sum(FINES)', 'Sum_FINES', 'sum_fines', 'Fines') || 0,
+            arrests: +getField(d, 'Sum(ARRESTS)', 'Sum_ARRESTS', 'sum_arrests', 'Arrests') || 0,
+            charges: +getField(d, 'Sum(CHARGES)', 'Sum_CHARGES', 'sum_charges', 'Charges') || 0
         }))
     ]).then(([monthly, jurisdiction, fineGrained, totals]) => {
         monthlyData = monthly;
         jurisdictionData = jurisdiction;
         fineGrainedData = fineGrained;
-        totalsData = totals[0];
+        totalsData = totals;
         return true;
     }).catch(err => {
         console.error("Failed to load CSV data:", err);
         return false;
     });
 }
-
+//tooltip functions
 function showTooltip(event, html) {
     tooltip.html(html)
         .style("left", (event.pageX + 15) + "px")
@@ -89,6 +124,101 @@ function getMetricLabel(metric) {
     return labels[metric] || metric;
 }
 
+function getYearOptions(dataset) {
+    const years = new Set(dataset.filter(d => d.year != null).map(d => d.year));
+    return Array.from(years).sort((a, b) => a - b);
+}
+
+function filterByYear(dataset, year) {
+    if (!year || year === 'All') return dataset;
+    return dataset.filter(d => d.year === +year);
+}
+
+function getTotalsForYear(year) {
+    if (!Array.isArray(totalsData) || totalsData.length === 0) return { fines: 0, arrests: 0, charges: 0 };
+    if (!year || year === 'All') {
+        return totalsData.reduce((acc, row) => ({
+            fines: acc.fines + (row.fines || 0),
+            arrests: acc.arrests + (row.arrests || 0),
+            charges: acc.charges + (row.charges || 0)
+        }), { fines: 0, arrests: 0, charges: 0 });
+    }
+    const found = totalsData.find(row => row.year === +year);
+    return found || { fines: 0, arrests: 0, charges: 0 };
+}
+
+function populateYearSelectors() {
+    const selectors = document.querySelectorAll('.year-selector');
+    selectors.forEach(selector => {
+        let dataset = [];
+        switch (selector.dataset.chart) {
+            case 'monthly':
+                dataset = monthlyData;
+                break;
+            case 'jurisdictionFines':
+            case 'jurisdictionArrests':
+                dataset = jurisdictionData;
+                break;
+            case 'ageGroup':
+            case 'heatmap':
+            case 'line':
+                dataset = fineGrainedData;
+                break;
+            default:
+                dataset = [];
+        }
+
+        let years = getYearOptions(dataset);
+        
+        // For specific charts, filter to only show 2023 and 2024
+        const chartsWithFilteredYears = ['jurisdictionArrests', 'ageGroup', 'heatmap', 'line'];
+        if (chartsWithFilteredYears.includes(selector.dataset.chart)) {
+            years = years.filter(y => y === 2023 || y === 2024);
+        }
+        
+        selector.innerHTML = '<option value="All">All Years</option>' + years.map(year => `<option value="${year}">${year}</option>`).join('');
+        selector.value = yearSelections[selector.dataset.chart] || 'All';
+    });
+
+    // populate age selectors (used for the age-group chart)
+    const ageSelectors = document.querySelectorAll('.age-selector');
+    const ageOptions = [
+        {value: 'All', label: 'All Ages'},
+        {value: '0-16', label: '0-16'},
+        {value: '17-25', label: '17-25'},
+        {value: '26-39', label: '26-39'},
+        {value: '40-64', label: '40-64'},
+        {value: '65 and over', label: '65 and over'}
+    ];
+    ageSelectors.forEach(sel => {
+        sel.innerHTML = ageOptions.map(a => `<option value="${a.value}">${a.label}</option>`).join('');
+        sel.value = ageSelections[sel.dataset.chart] || 'All';
+    });
+    
+    // Attach delegated listener once
+    if (!document.body.hasAttribute('data-year-listeners-attached')) {
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('year-selector')) {
+                const chartType = e.target.dataset.chart;
+                yearSelections[chartType] = e.target.value;
+                
+                // Redraw only the specific chart
+                if (chartType === 'monthly') drawMonthlyChart('all');
+                else if (chartType === 'jurisdictionFines') drawJurisdictionFinesChart();
+                else if (chartType === 'jurisdictionArrests') drawJurisdictionArrestsChart();
+                else if (chartType === 'ageGroup') drawAgeGroupChart();
+                else if (chartType === 'heatmap') drawHeatmapChart();
+                else if (chartType === 'line') drawLineChart();
+            } else if (e.target.classList.contains('age-selector')) {
+                const chartType = e.target.dataset.chart;
+                ageSelections[chartType] = e.target.value;
+                if (chartType === 'ageGroup') drawAgeGroupChart();
+            }
+        });
+        document.body.setAttribute('data-year-listeners-attached', 'true');
+    }
+}
+
 // monthly fine chart
 function drawMonthlyChart(view = 'all') {
     const container = d3.select("#monthlyChart");
@@ -103,7 +233,22 @@ function drawMonthlyChart(view = 'all') {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    let data = monthlyData.map(d => ({...d}));
+    let data = filterByYear(monthlyData, yearSelections.monthly);
+    
+    // If "All" years, aggregate by month; otherwise keep as-is
+    if (yearSelections.monthly === 'All') {
+        const monthMap = {};
+        data.forEach(d => {
+            if (!monthMap[d.month]) {
+                monthMap[d.month] = { month: d.month, name: d.name, fines: 0 };
+            }
+            monthMap[d.month].fines += d.fines;
+        });
+        data = Object.values(monthMap).sort((a, b) => a.month - b.month);
+    } else {
+        data = data.map(d => ({...d}));
+    }
+    
     let useLog = false;
 
     if (view === 'exclude') {
@@ -120,6 +265,7 @@ function drawMonthlyChart(view = 'all') {
     const y = useLog 
         ? d3.scaleLog().domain([50000, d3.max(data, d => d.fines)]).range([height, 0])
         : d3.scaleLinear().domain([0, d3.max(data, d => d.fines) * 1.05]).range([height, 0]);
+
 
     svg.append("g")
         .attr("class", "grid")
@@ -146,6 +292,8 @@ function drawMonthlyChart(view = 'all') {
         yAxis.ticks(6);
     }
     svg.append("g").attr("class", "axis").call(yAxis);
+
+    const yearTotalFines = d3.sum(data, d => d.fines) || 1;
 
     const defs = svg.append("defs");
     const gradient = defs.append("linearGradient")
@@ -176,9 +324,9 @@ function drawMonthlyChart(view = 'all') {
     bars.on("mouseover", function(event, d) {
         d3.select(this).attr("opacity", 1).attr("stroke", "#fff").attr("stroke-width", 2);
         showTooltip(event, `
-            <div class="tooltip-title">${d.name} 2023</div>
+            <div class="tooltip-title">${d.name}${yearSelections.monthly === 'All' ? '' : ' ' + yearSelections.monthly}</div>
             <div class="tooltip-row"><span>Fines</span><span class="tooltip-value">${formatCurrency(d.fines)}</span></div>
-            <div class="tooltip-row"><span>Share of Year</span><span class="tooltip-value">${((d.fines/totalsData.fines)*100).toFixed(1)}%</span></div>
+            <div class="tooltip-row"><span>Share of Year</span><span class="tooltip-value">${((d.fines/yearTotalFines)*100).toFixed(1)}%</span></div>
         `);
     })
     .on("mousemove", event => {
@@ -223,7 +371,23 @@ function drawJurisdictionFinesChart() {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const data = [...jurisdictionData].sort((a, b) => b.fines - a.fines);
+    let data = filterByYear(jurisdictionData, yearSelections.jurisdictionFines);
+    
+    // If "All" years, aggregate by jurisdiction; otherwise keep as-is
+    if (yearSelections.jurisdictionFines === 'All') {
+        const jurisMap = {};
+        data.forEach(d => {
+            if (!jurisMap[d.name]) {
+                jurisMap[d.name] = { name: d.name, fines: 0, arrests: 0, charges: 0 };
+            }
+            jurisMap[d.name].fines += d.fines;
+            jurisMap[d.name].arrests += d.arrests;
+            jurisMap[d.name].charges += d.charges;
+        });
+        data = Object.values(jurisMap);
+    }
+    
+    data = [...data].sort((a, b) => b.fines - a.fines);
 
     const x = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.fines)])
@@ -233,6 +397,7 @@ function drawJurisdictionFinesChart() {
         .domain(data.map(d => d.name))
         .range([0, height])
         .padding(0.3);
+
 
     svg.append("g")
         .attr("class", "axis")
@@ -313,7 +478,23 @@ function drawJurisdictionArrestsChart() {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const data = [...jurisdictionData].filter(d => d[currentJurisdictionMetric] > 0)
+    let data = filterByYear(jurisdictionData, yearSelections.jurisdictionArrests);
+    
+    // If "All" years, aggregate by jurisdiction; otherwise keep as-is
+    if (yearSelections.jurisdictionArrests === 'All') {
+        const jurisMap = {};
+        data.forEach(d => {
+            if (!jurisMap[d.name]) {
+                jurisMap[d.name] = { name: d.name, fines: 0, arrests: 0, charges: 0 };
+            }
+            jurisMap[d.name].fines += d.fines;
+            jurisMap[d.name].arrests += d.arrests;
+            jurisMap[d.name].charges += d.charges;
+        });
+        data = Object.values(jurisMap);
+    }
+    
+    data = [...data].filter(d => d[currentJurisdictionMetric] > 0)
         .sort((a, b) => b[currentJurisdictionMetric] - a[currentJurisdictionMetric]);
 
     if (data.length === 0) {
@@ -416,93 +597,260 @@ function drawAgeGroupChart() {
     const ageGroups = ["0-16", "17-25", "26-39", "40-64", "65 and over"];
     const metrics = ["speed_fines", "mobile_phone_use", "non_wearing_seatbelts", "unlicensed_driving"];
 
-    const allRegionsData = fineGrainedData.filter(d => d.loc === "All Regions");
+    // data filtered for All Regions and selected year
+    let allRegionsData = filterByYear(fineGrainedData, yearSelections.ageGroup).filter(d => d.loc === "All Regions");
 
-    const data = ageGroups.map(age => {
-        const row = {age: age.replace(" and over", "+")};
-        metrics.forEach(m => {
-            const item = allRegionsData.find(d => d.age === age && d.metric === m);
-            row[m] = item ? item[currentAgeView === 'fines' ? 'fines' : 'arrests'] : 0;
+    // If "All" years, aggregate by age and metric
+    if (yearSelections.ageGroup === 'All') {
+        const aggMap = {};
+        allRegionsData.forEach(d => {
+            const key = d.age + '|' + d.metric;
+            if (!aggMap[key]) {
+                aggMap[key] = { age: d.age, metric: d.metric, fines: 0, arrests: 0, charges: 0 };
+            }
+            aggMap[key].fines += d.fines;
+            aggMap[key].arrests += d.arrests;
+            aggMap[key].charges += d.charges;
         });
-        return row;
-    });
+        allRegionsData = Object.values(aggMap);
+    }
 
-    const x0 = d3.scaleBand()
-        .domain(data.map(d => d.age))
-        .range([0, width])
-        .padding(0.2);
+    const selectedAge = (ageSelections.ageGroup || 'All');
 
-    const x1 = d3.scaleBand()
-        .domain(metrics)
-        .range([0, x0.bandwidth()])
-        .padding(0.05);
+    if (selectedAge && selectedAge !== 'All' && selectedAge !== 'All Ages') {
+        // Show a simple bar chart of metrics for the selected age
+        const metricData = metrics.map(m => {
+            const item = allRegionsData.find(d => d.age === selectedAge && d.metric === m);
+            return { metric: m, value: item ? item[currentAgeView === 'fines' ? 'fines' : 'arrests'] : 0 };
+        });
 
-    const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d3.max(metrics, m => d[m])) * 1.1])
-        .range([height, 0]);
+        const x = d3.scaleBand()
+            .domain(metricData.map(d => d.metric))
+            .range([0, width])
+            .padding(0.25);
 
-    svg.append("g")
-        .attr("class", "grid")
-        .call(d3.axisLeft(y).tickSize(-width).tickFormat("").ticks(6));
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(metricData, d => d.value) * 1.1 || 1])
+            .range([height, 0]);
 
-    svg.append("g")
-        .attr("class", "axis")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x0))
-        .selectAll("text")
-        .style("font-size", "12px")
-        .style("font-weight", "500");
+        svg.append("g").attr("class", "grid").call(d3.axisLeft(y).tickSize(-width).tickFormat("").ticks(6));
 
-    svg.append("g")
-        .attr("class", "axis")
-        .call(d3.axisLeft(y).ticks(6).tickFormat(d => {
-            if (d >= 1e6) return (d/1e6).toFixed(0) + "M";
-            if (d >= 1e3) return (d/1e3).toFixed(0) + "K";
-            return d;
-        }));
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickFormat(d => getMetricLabel(d)).tickSize(0))
+            .selectAll("text")
+            .style("font-size", "12px");
 
-    const ageGroup = svg.selectAll(".age-group")
-        .data(data)
-        .enter().append("g")
-        .attr("class", "age-group")
-        .attr("transform", d => `translate(${x0(d.age)},0)`);
+        svg.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(6).tickFormat(d => {
+                if (d >= 1e6) return (d/1e6).toFixed(0) + "M";
+                if (d >= 1e3) return (d/1e3).toFixed(0) + "K";
+                return d;
+            }));
 
-    ageGroup.selectAll("rect")
-        .data(d => metrics.map(m => ({metric: m, value: d[m], age: d.age})))
-        .enter().append("rect")
-        .attr("x", d => x1(d.metric))
-        .attr("y", height)
-        .attr("width", x1.bandwidth())
-        .attr("height", 0)
-        .attr("rx", 4)
-        .attr("fill", d => getMetricColor(d.metric))
-        .attr("opacity", 0.85)
-        .on("mouseover", function(event, d) {
-            d3.select(this).attr("opacity", 1).attr("stroke", "#fff").attr("stroke-width", 1.5);
+        const bars = svg.selectAll('.bar-metric')
+            .data(metricData)
+            .enter().append('rect')
+            .attr('class', 'bar-metric')
+            .attr('x', d => x(d.metric))
+            .attr('y', height)
+            .attr('width', x.bandwidth())
+            .attr('height', 0)
+            .attr('rx', 6)
+            .attr('fill', d => getMetricColor(d.metric));
+
+        bars.transition().duration(800).attr('y', d => y(d.value)).attr('height', d => height - y(d.value));
+
+        svg.selectAll('.bar-label')
+            .data(metricData)
+            .enter().append('text')
+            .attr('class', 'bar-label')
+            .attr('x', d => x(d.metric) + x.bandwidth() / 2)
+            .attr('y', height)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '11px')
+            .style('fill', '#e5e7eb')
+            .style('font-weight', '600')
+            .text(d => formatNumber(d.value))
+            .transition().duration(800)
+            .attr('y', d => y(d.value) - 8);
+
+        bars.on('mouseover', function(event, d) {
+            d3.select(this).attr('opacity', 0.9);
             showTooltip(event, `
-                <div class="tooltip-title">${d.age} · ${getMetricLabel(d.metric)}</div>
+                <div class="tooltip-title">${selectedAge} · ${getMetricLabel(d.metric)}</div>
                 <div class="tooltip-row"><span>${currentAgeView === 'fines' ? 'Fines' : 'Arrests'}</span><span class="tooltip-value">${formatNumber(d.value)}</span></div>
             `);
-        })
-        .on("mousemove", event => {
-            tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 10) + "px");
-        })
-        .on("mouseout", function() {
-            d3.select(this).attr("opacity", 0.85).attr("stroke", "none");
+        }).on('mousemove', event => {
+            tooltip.style('left', (event.pageX + 15) + 'px').style('top', (event.pageY - 10) + 'px');
+        }).on('mouseout', function() {
+            d3.select(this).attr('opacity', 1);
             hideTooltip();
-        })
-        .transition()
-        .duration(800)
-        .delay((d, i) => i * 100)
-        .attr("y", d => y(d.value))
-        .attr("height", d => height - y(d.value));
+        });
 
-    const legend = svg.append("g").attr("transform", `translate(0, ${height + 45})`);
-    metrics.forEach((m, i) => {
-        const g = legend.append("g").attr("transform", `translate(${i * 110}, 0)`);
-        g.append("rect").attr("width", 12).attr("height", 12).attr("rx", 3).attr("fill", getMetricColor(m));
-        g.append("text").attr("x", 18).attr("y", 10).style("font-size", "11px").style("fill", "#9ca3af").text(getMetricLabel(m));
-    });
+    } else if (selectedAge === 'All Ages' || selectedAge === 'All') {
+        // When 'All Ages' selected, aggregate across ages and show metric totals as a simple bar chart
+        const metricTotals = metrics.map(m => {
+            const total = allRegionsData.reduce((acc, d) => d.metric === m ? acc + (d[currentAgeView === 'fines' ? 'fines' : 'arrests']) : acc, 0);
+            return { metric: m, value: total };
+        });
+
+        const x = d3.scaleBand()
+            .domain(metricTotals.map(d => d.metric))
+            .range([0, width])
+            .padding(0.25);
+
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(metricTotals, d => d.value) * 1.1 || 1])
+            .range([height, 0]);
+
+        svg.append("g").attr("class", "grid").call(d3.axisLeft(y).tickSize(-width).tickFormat("").ticks(6));
+
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickFormat(d => getMetricLabel(d)).tickSize(0))
+            .selectAll("text")
+            .style("font-size", "12px");
+
+        svg.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(6).tickFormat(d => {
+                if (d >= 1e6) return (d/1e6).toFixed(0) + "M";
+                if (d >= 1e3) return (d/1e3).toFixed(0) + "K";
+                return d;
+            }));
+
+        const bars = svg.selectAll('.bar-metric')
+            .data(metricTotals)
+            .enter().append('rect')
+            .attr('class', 'bar-metric')
+            .attr('x', d => x(d.metric))
+            .attr('y', height)
+            .attr('width', x.bandwidth())
+            .attr('height', 0)
+            .attr('rx', 6)
+            .attr('fill', d => getMetricColor(d.metric));
+
+        bars.transition().duration(800).attr('y', d => y(d.value)).attr('height', d => height - y(d.value));
+
+        svg.selectAll('.bar-label')
+            .data(metricTotals)
+            .enter().append('text')
+            .attr('class', 'bar-label')
+            .attr('x', d => x(d.metric) + x.bandwidth() / 2)
+            .attr('y', height)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '11px')
+            .style('fill', '#e5e7eb')
+            .style('font-weight', '600')
+            .text(d => formatNumber(d.value))
+            .transition().duration(800)
+            .attr('y', d => y(d.value) - 8);
+
+        bars.on('mouseover', function(event, d) {
+            d3.select(this).attr('opacity', 0.9);
+            showTooltip(event, `
+                <div class="tooltip-title">All Ages · ${getMetricLabel(d.metric)}</div>
+                <div class="tooltip-row"><span>${currentAgeView === 'fines' ? 'Fines' : 'Arrests'}</span><span class="tooltip-value">${formatNumber(d.value)}</span></div>
+            `);
+        }).on('mousemove', event => {
+            tooltip.style('left', (event.pageX + 15) + 'px').style('top', (event.pageY - 10) + 'px');
+        }).on('mouseout', function() {
+            d3.select(this).attr('opacity', 1);
+            hideTooltip();
+        });
+
+    } else {
+        // original grouped chart (ages on x, metrics grouped)
+        const data = ageGroups.map(age => {
+            const row = {age: age.replace(" and over", "+")};
+            metrics.forEach(m => {
+                const item = allRegionsData.find(d => d.age === age && d.metric === m);
+                row[m] = item ? item[currentAgeView === 'fines' ? 'fines' : 'arrests'] : 0;
+            });
+            return row;
+        });
+
+        const x0 = d3.scaleBand()
+            .domain(data.map(d => d.age))
+            .range([0, width])
+            .padding(0.2);
+
+        const x1 = d3.scaleBand()
+            .domain(metrics)
+            .range([0, x0.bandwidth()])
+            .padding(0.05);
+
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d3.max(metrics, m => d[m])) * 1.1])
+            .range([height, 0]);
+
+        svg.append("g")
+            .attr("class", "grid")
+            .call(d3.axisLeft(y).tickSize(-width).tickFormat("").ticks(6));
+
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x0))
+            .selectAll("text")
+            .style("font-size", "12px")
+            .style("font-weight", "500");
+
+        svg.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(6).tickFormat(d => {
+                if (d >= 1e6) return (d/1e6).toFixed(0) + "M";
+                if (d >= 1e3) return (d/1e3).toFixed(0) + "K";
+                return d;
+            }));
+
+        const ageGroup = svg.selectAll(".age-group")
+            .data(data)
+            .enter().append("g")
+            .attr("class", "age-group")
+            .attr("transform", d => `translate(${x0(d.age)},0)`);
+
+        ageGroup.selectAll("rect")
+            .data(d => metrics.map(m => ({metric: m, value: d[m], age: d.age})))
+            .enter().append("rect")
+            .attr("x", d => x1(d.metric))
+            .attr("y", height)
+            .attr("width", x1.bandwidth())
+            .attr("height", 0)
+            .attr("rx", 4)
+            .attr("fill", d => getMetricColor(d.metric))
+            .attr("opacity", 0.85)
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("opacity", 1).attr("stroke", "#fff").attr("stroke-width", 1.5);
+                showTooltip(event, `
+                    <div class="tooltip-title">${d.age} · ${getMetricLabel(d.metric)}</div>
+                    <div class="tooltip-row"><span>${currentAgeView === 'fines' ? 'Fines' : 'Arrests'}</span><span class="tooltip-value">${formatNumber(d.value)}</span></div>
+                `);
+            })
+            .on("mousemove", event => {
+                tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select(this).attr("opacity", 0.85).attr("stroke", "none");
+                hideTooltip();
+            })
+            .transition()
+            .duration(800)
+            .delay((d, i) => i * 100)
+            .attr("y", d => y(d.value))
+            .attr("height", d => height - y(d.value));
+
+        const legend = svg.append("g").attr("transform", `translate(0, ${height + 45})`);
+        metrics.forEach((m, i) => {
+            const g = legend.append("g").attr("transform", `translate(${i * 110}, 0)`);
+            g.append("rect").attr("width", 12).attr("height", 12).attr("rx", 3).attr("fill", getMetricColor(m));
+            g.append("text").attr("x", 18).attr("y", 10).style("font-size", "11px").style("fill", "#9ca3af").text(getMetricLabel(m));
+        });
+    }
 }
 
 //heat map
@@ -523,10 +871,27 @@ function drawHeatmapChart() {
     const ageGroups = ["0-16", "17-25", "26-39", "40-64", "65 and over"];
     const metric = heatmapMetrics[currentHeatmapMetric];
 
+    let filteredFineGrained = filterByYear(fineGrainedData, yearSelections.heatmap);
+    
+    // If "All" years, aggregate by location, age, and metric
+    if (yearSelections.heatmap === 'All') {
+        const aggMap = {};
+        filteredFineGrained.forEach(d => {
+            const key = d.loc + '|' + d.age + '|' + d.metric;
+            if (!aggMap[key]) {
+                aggMap[key] = { loc: d.loc, age: d.age, metric: d.metric, fines: 0, arrests: 0, charges: 0 };
+            }
+            aggMap[key].fines += d.fines;
+            aggMap[key].arrests += d.arrests;
+            aggMap[key].charges += d.charges;
+        });
+        filteredFineGrained = Object.values(aggMap);
+    }
+    
     const data = [];
     locations.forEach(loc => {
         ageGroups.forEach(age => {
-            const item = fineGrainedData.find(d => d.loc === loc && d.age === age && d.metric === metric);
+            const item = filteredFineGrained.find(d => d.loc === loc && d.age === age && d.metric === metric);
             data.push({
                 loc: loc.replace(" of Australia", "").replace(" Australia", ""),
                 age: age.replace(" and over", "+"),
@@ -634,10 +999,27 @@ function drawLineChart() {
         ? ["All Regions", "Major Cities of Australia", "Inner Regional Australia", "Outer Regional Australia", "Remote Australia", "Very Remote Australia"]
         : ["0-16", "17-25", "26-39", "40-64", "65 and over"];
 
+    let yearFilteredData = filterByYear(fineGrainedData, yearSelections.line);
+    
+    // If "All" years, aggregate by location, age, and metric
+    if (yearSelections.line === 'All') {
+        const aggMap = {};
+        yearFilteredData.forEach(d => {
+            const key = d.loc + '|' + d.age + '|' + d.metric;
+            if (!aggMap[key]) {
+                aggMap[key] = { loc: d.loc, age: d.age, metric: d.metric, fines: 0, arrests: 0, charges: 0 };
+            }
+            aggMap[key].fines += d.fines;
+            aggMap[key].arrests += d.arrests;
+            aggMap[key].charges += d.charges;
+        });
+        yearFilteredData = Object.values(aggMap);
+    }
+    
     const data = groups.map(g => {
         const items = currentLineGroup === 'location'
-            ? fineGrainedData.filter(d => d.loc === g)
-            : fineGrainedData.filter(d => d.age === g && d.loc === "All Regions");
+            ? yearFilteredData.filter(d => d.loc === g)
+            : yearFilteredData.filter(d => d.age === g && d.loc === "All Regions");
         return {
             name: g.replace(" of Australia", "").replace(" Australia", "").replace(" and over", "+"),
             fines: d3.sum(items, d => d.fines),
@@ -697,24 +1079,14 @@ function drawLineChart() {
         .curve(d3.curveMonotoneX);
 
     lineDefs.forEach(def => {
-        const lineData = data.map(d => ({ name: d.name, value: Math.max(d[def.key], 1) }));
-
-        const areaGen = d3.area()
-            .x(d => x(d.name))
-            .y0(height)
-            .y1(d => y(d.value))
-            .curve(d3.curveMonotoneX);
-
-        svg.append("path")
-            .datum(lineData)
-            .attr("class", "area-path")
-            .attr("d", areaGen)
-            .attr("fill", def.color)
-            .attr("opacity", 0)
-            .transition()
-            .duration(800)
-            .delay(200)
-            .attr("opacity", 0.08);
+        const lineData = data.map(d => ({
+            name: d.name,
+            value: Math.max(d[def.key], 1),
+            raw: d[def.key],
+            fines: d.fines,
+            arrests: d.arrests,
+            charges: d.charges
+        }));
 
         const path = svg.append("path")
             .datum(lineData)
@@ -745,16 +1117,15 @@ function drawLineChart() {
             .attr("fill", def.color)
             .attr("stroke", "#111827")
             .attr("stroke-width", 2)
+            .attr("pointer-events", "all")
             .style("cursor", "pointer")
             .on("mouseover", function(event, d) {
                 d3.select(this).transition().duration(150).attr("r", 8);
-                const original = data.find(item => item.name === d.name);
+                // show only the primary metric for this line (colored label + value)
+                const valueStr = def.key === 'fines' ? formatCurrency(d.raw) : formatNumber(d.raw);
                 showTooltip(event, `
                     <div class="tooltip-title">${d.name}</div>
-                    <div class="tooltip-row"><span style="color:${def.color}">● ${def.label}</span><span class="tooltip-value">${formatNumber(original[def.key])}</span></div>
-                    <div class="tooltip-row"><span>Fines</span><span class="tooltip-value">${formatCurrency(original.fines)}</span></div>
-                    <div class="tooltip-row"><span>Arrests</span><span class="tooltip-value">${formatNumber(original.arrests)}</span></div>
-                    <div class="tooltip-row"><span>Charges</span><span class="tooltip-value">${formatNumber(original.charges)}</span></div>
+                    <div class="tooltip-row"><span style="color:${def.color}">● ${def.label}</span><span class="tooltip-value">${valueStr}</span></div>
                 `);
             })
             .on("mousemove", event => {
@@ -860,10 +1231,10 @@ document.getElementById('mobileMenuBtn').addEventListener('click', () => {
 
 function formatCompactValue(value) {
     if (value >= 1e6) {
-        return (value / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+        return (value / 1e6).toFixed(2) + 'M';
     }
     if (value >= 1e3) {
-        return (value / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+        return (value / 1e3).toFixed(2) + 'K';
     }
     return value.toString();
 }
@@ -896,10 +1267,12 @@ const heroObserver = new IntersectionObserver((entries) => {
 
 loadData().then(success => {
     if (success) {
-        document.querySelector('.stat-value[data-target="63458809"]').setAttribute('data-target', totalsData.fines);
-        document.querySelector('.stat-value[data-target="9184"]').setAttribute('data-target', totalsData.arrests);
-        document.querySelector('.stat-value[data-target="122732"]').setAttribute('data-target', totalsData.charges);
+        const allTotals = getTotalsForYear('All');
+        document.querySelector('.stat-value[data-target="63458809"]').setAttribute('data-target', allTotals.fines);
+        document.querySelector('.stat-value[data-target="9184"]').setAttribute('data-target', allTotals.arrests);
+        document.querySelector('.stat-value[data-target="122732"]').setAttribute('data-target', allTotals.charges);
 
+        populateYearSelectors();
         initCharts();
         heroObserver.observe(document.querySelector('.hero'));
     } else {

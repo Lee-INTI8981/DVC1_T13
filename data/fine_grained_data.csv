@@ -1,119 +1,308 @@
-Location,Age_Group,Metric,Fines,Arrests,Charges
-All Regions,0-16,mobile_phone_use,2116,0,3
-All Regions,0-16,non_wearing_seatbelts,838,7,30
-All Regions,0-16,speed_fines,19532,14,58
-All Regions,0-16,unlicensed_driving,655,749,1642
-All Regions,17-25,mobile_phone_use,16903,4,114
-All Regions,17-25,non_wearing_seatbelts,9378,46,584
-All Regions,17-25,speed_fines,358254,55,1110
-All Regions,17-25,unlicensed_driving,11054,1692,12020
-All Regions,26-39,mobile_phone_use,42867,7,200
-All Regions,26-39,non_wearing_seatbelts,22124,63,943
-All Regions,26-39,speed_fines,811519,91,1830
-All Regions,26-39,unlicensed_driving,19350,3876,21321
-All Regions,40-64,mobile_phone_use,40361,4,130
-All Regions,40-64,non_wearing_seatbelts,21100,25,402
-All Regions,40-64,speed_fines,1169407,55,1629
-All Regions,40-64,unlicensed_driving,12916,1805,14026
-All Regions,65 and over,mobile_phone_use,5255,2,14
-All Regions,65 and over,non_wearing_seatbelts,5282,10,120
-All Regions,65 and over,speed_fines,303854,9,230
-All Regions,65 and over,unlicensed_driving,1054,131,934
-Inner Regional Australia,0-16,mobile_phone_use,17,0,2
-Inner Regional Australia,0-16,non_wearing_seatbelts,44,0,11
-Inner Regional Australia,0-16,speed_fines,143,1,23
-Inner Regional Australia,0-16,unlicensed_driving,54,0,290
-Inner Regional Australia,17-25,mobile_phone_use,2042,0,12
-Inner Regional Australia,17-25,non_wearing_seatbelts,2613,0,55
-Inner Regional Australia,17-25,speed_fines,64209,3,315
-Inner Regional Australia,17-25,unlicensed_driving,1294,0,3760
-Inner Regional Australia,26-39,mobile_phone_use,4350,0,15
-Inner Regional Australia,26-39,non_wearing_seatbelts,5237,0,55
-Inner Regional Australia,26-39,speed_fines,137852,4,301
-Inner Regional Australia,26-39,unlicensed_driving,3111,0,6613
-Inner Regional Australia,40-64,mobile_phone_use,4527,0,14
-Inner Regional Australia,40-64,non_wearing_seatbelts,5311,0,19
-Inner Regional Australia,40-64,speed_fines,186470,6,171
-Inner Regional Australia,40-64,unlicensed_driving,2146,0,4107
-Inner Regional Australia,65 and over,mobile_phone_use,718,0,0
-Inner Regional Australia,65 and over,non_wearing_seatbelts,1834,0,1
-Inner Regional Australia,65 and over,speed_fines,63430,0,7
-Inner Regional Australia,65 and over,unlicensed_driving,243,0,266
-Major Cities of Australia,0-16,mobile_phone_use,47,0,6
-Major Cities of Australia,0-16,non_wearing_seatbelts,78,0,10
-Major Cities of Australia,0-16,speed_fines,247,3,43
-Major Cities of Australia,0-16,unlicensed_driving,107,28,647
-Major Cities of Australia,17-25,mobile_phone_use,18556,0,127
-Major Cities of Australia,17-25,non_wearing_seatbelts,6767,0,77
-Major Cities of Australia,17-25,speed_fines,193435,23,1031
-Major Cities of Australia,17-25,unlicensed_driving,5079,72,12006
-Major Cities of Australia,26-39,mobile_phone_use,42515,1,131
-Major Cities of Australia,26-39,non_wearing_seatbelts,19750,1,132
-Major Cities of Australia,26-39,speed_fines,524910,32,751
-Major Cities of Australia,26-39,unlicensed_driving,7909,232,17134
-Major Cities of Australia,40-64,mobile_phone_use,41007,1,72
-Major Cities of Australia,40-64,non_wearing_seatbelts,22528,0,72
-Major Cities of Australia,40-64,speed_fines,807143,16,378
-Major Cities of Australia,40-64,unlicensed_driving,4248,102,11017
-Major Cities of Australia,65 and over,mobile_phone_use,5426,0,6
-Major Cities of Australia,65 and over,non_wearing_seatbelts,5829,0,7
-Major Cities of Australia,65 and over,speed_fines,230309,0,6
-Major Cities of Australia,65 and over,unlicensed_driving,457,0,584
-Outer Regional Australia,0-16,mobile_phone_use,1,0,1
-Outer Regional Australia,0-16,non_wearing_seatbelts,20,0,1
-Outer Regional Australia,0-16,speed_fines,44,0,7
-Outer Regional Australia,0-16,unlicensed_driving,22,0,119
-Outer Regional Australia,17-25,mobile_phone_use,318,0,7
-Outer Regional Australia,17-25,non_wearing_seatbelts,731,0,13
-Outer Regional Australia,17-25,speed_fines,15695,2,65
-Outer Regional Australia,17-25,unlicensed_driving,368,0,945
-Outer Regional Australia,26-39,mobile_phone_use,573,0,1
-Outer Regional Australia,26-39,non_wearing_seatbelts,1344,0,16
-Outer Regional Australia,26-39,speed_fines,32076,3,86
-Outer Regional Australia,26-39,unlicensed_driving,900,0,1768
-Outer Regional Australia,40-64,mobile_phone_use,518,0,2
-Outer Regional Australia,40-64,non_wearing_seatbelts,1235,0,12
-Outer Regional Australia,40-64,speed_fines,42954,5,59
-Outer Regional Australia,40-64,unlicensed_driving,592,0,1029
-Outer Regional Australia,65 and over,mobile_phone_use,78,0,0
-Outer Regional Australia,65 and over,non_wearing_seatbelts,447,0,4
-Outer Regional Australia,65 and over,speed_fines,14495,0,11
-Outer Regional Australia,65 and over,unlicensed_driving,125,0,110
-Remote Australia,0-16,mobile_phone_use,0,0,0
-Remote Australia,0-16,non_wearing_seatbelts,0,0,0
-Remote Australia,0-16,speed_fines,5,0,0
-Remote Australia,0-16,unlicensed_driving,4,0,14
-Remote Australia,17-25,mobile_phone_use,16,0,2
-Remote Australia,17-25,non_wearing_seatbelts,70,0,6
-Remote Australia,17-25,speed_fines,1226,0,12
-Remote Australia,17-25,unlicensed_driving,24,0,157
-Remote Australia,26-39,mobile_phone_use,31,0,2
-Remote Australia,26-39,non_wearing_seatbelts,112,0,5
-Remote Australia,26-39,speed_fines,2417,2,8
-Remote Australia,26-39,unlicensed_driving,54,0,277
-Remote Australia,40-64,mobile_phone_use,23,0,0
-Remote Australia,40-64,non_wearing_seatbelts,125,0,1
-Remote Australia,40-64,speed_fines,3045,0,9
-Remote Australia,40-64,unlicensed_driving,35,0,137
-Remote Australia,65 and over,mobile_phone_use,6,0,0
-Remote Australia,65 and over,non_wearing_seatbelts,40,0,0
-Remote Australia,65 and over,speed_fines,885,0,0
-Remote Australia,65 and over,unlicensed_driving,14,0,7
-Very Remote Australia,0-16,speed_fines,1,0,1
-Very Remote Australia,0-16,unlicensed_driving,0,0,4
-Very Remote Australia,17-25,mobile_phone_use,8,0,0
-Very Remote Australia,17-25,non_wearing_seatbelts,39,0,1
-Very Remote Australia,17-25,speed_fines,359,0,2
-Very Remote Australia,17-25,unlicensed_driving,4,0,55
-Very Remote Australia,26-39,mobile_phone_use,11,0,1
-Very Remote Australia,26-39,non_wearing_seatbelts,105,0,3
-Very Remote Australia,26-39,speed_fines,792,1,4
-Very Remote Australia,26-39,unlicensed_driving,13,0,92
-Very Remote Australia,40-64,mobile_phone_use,12,0,0
-Very Remote Australia,40-64,non_wearing_seatbelts,75,0,2
-Very Remote Australia,40-64,speed_fines,924,1,3
-Very Remote Australia,40-64,unlicensed_driving,10,0,44
-Very Remote Australia,65 and over,mobile_phone_use,2,0,0
-Very Remote Australia,65 and over,non_wearing_seatbelts,17,0,0
-Very Remote Australia,65 and over,speed_fines,221,0,0
-Very Remote Australia,65 and over,unlicensed_driving,4,0,4
+﻿YEAR,LOCATION,AGE_GROUP,METRIC,Sum(FINES),Sum(ARRESTS),Sum(CHARGES)
+2008,All regions,All ages,mobile_phone_use,155999,0,0
+2008,All regions,All ages,speed_fines,2639479,0,0
+2009,All regions,All ages,mobile_phone_use,165252,0,0
+2009,All regions,All ages,speed_fines,2576271,0,0
+2010,All regions,All ages,mobile_phone_use,171829,0,0
+2010,All regions,All ages,speed_fines,2518363,0,0
+2011,All regions,All ages,mobile_phone_use,159874,0,0
+2011,All regions,All ages,speed_fines,2856108,0,0
+2012,All regions,All ages,mobile_phone_use,166975,0,0
+2012,All regions,All ages,speed_fines,3004162,0,0
+2013,All regions,All ages,mobile_phone_use,146415,0,0
+2013,All regions,All ages,speed_fines,2907678,0,0
+2014,All regions,All ages,mobile_phone_use,132619,0,0
+2014,All regions,All ages,speed_fines,3669800,0,0
+2015,All regions,All ages,mobile_phone_use,128385,0,0
+2015,All regions,All ages,speed_fines,3797740,0,0
+2016,All regions,All ages,mobile_phone_use,114981,0,0
+2016,All regions,All ages,speed_fines,3265399,0,0
+2017,All regions,All ages,mobile_phone_use,117909,0,0
+2017,All regions,All ages,non_wearing_seatbelts,30263,0,0
+2017,All regions,All ages,speed_fines,3691401,0,0
+2018,All regions,All ages,mobile_phone_use,113981,0,0
+2018,All regions,All ages,non_wearing_seatbelts,57554,0,0
+2018,All regions,All ages,speed_fines,4279816,0,0
+2019,All regions,All ages,mobile_phone_use,97367,0,0
+2019,All regions,All ages,non_wearing_seatbelts,52749,0,0
+2019,All regions,All ages,speed_fines,3696730,0,0
+2020,All regions,All ages,mobile_phone_use,195151,0,0
+2020,All regions,All ages,non_wearing_seatbelts,35910,0,0
+2020,All regions,All ages,speed_fines,3773473,0,0
+2021,All regions,All ages,mobile_phone_use,221080,0,0
+2021,All regions,All ages,non_wearing_seatbelts,33193,0,0
+2021,All regions,All ages,speed_fines,4867138,0,0
+2022,All regions,All ages,mobile_phone_use,362342,0,0
+2022,All regions,All ages,non_wearing_seatbelts,80470,0,0
+2022,All regions,All ages,speed_fines,4551342,0,0
+2023,All Regions,0-16,mobile_phone_use,3,0,1
+2023,All Regions,0-16,non_wearing_seatbelts,13,3,11
+2023,All Regions,0-16,speed_fines,132,9,31
+2023,All Regions,0-16,unlicensed_driving,4,400,827
+2023,All Regions,17-25,mobile_phone_use,2646,3,53
+2023,All Regions,17-25,non_wearing_seatbelts,1475,20,220
+2023,All Regions,17-25,speed_fines,137542,44,529
+2023,All Regions,17-25,unlicensed_driving,1733,868,5854
+2023,All Regions,26-39,mobile_phone_use,5087,4,90
+2023,All Regions,26-39,non_wearing_seatbelts,2852,33,337
+2023,All Regions,26-39,speed_fines,343087,62,940
+2023,All Regions,26-39,unlicensed_driving,4364,1945,10073
+2023,All Regions,40-64,mobile_phone_use,4086,3,54
+2023,All Regions,40-64,non_wearing_seatbelts,2681,0,86
+2023,All Regions,40-64,speed_fines,516285,35,779
+2023,All Regions,40-64,unlicensed_driving,3484,801,6215
+2023,All Regions,65 and over,mobile_phone_use,605,2,12
+2023,All Regions,65 and over,non_wearing_seatbelts,905,10,96
+2023,All Regions,65 and over,speed_fines,135991,9,151
+2023,All Regions,65 and over,unlicensed_driving,344,107,605
+2023,All Regions,All Age,mobile_phone_use,283932,0,0
+2023,All Regions,All Age,non_wearing_seatbelts,38234,0,0
+2023,All Regions,All Age,speed_fines,1576790,0,1
+2023,All Regions,All Age,unlicensed_driving,27703,0,2
+2023,Inner Regional Australia,0-16,mobile_phone_use,13,0,0
+2023,Inner Regional Australia,0-16,non_wearing_seatbelts,29,0,8
+2023,Inner Regional Australia,0-16,speed_fines,67,0,9
+2023,Inner Regional Australia,0-16,unlicensed_driving,38,0,164
+2023,Inner Regional Australia,17-25,mobile_phone_use,1113,0,7
+2023,Inner Regional Australia,17-25,non_wearing_seatbelts,1453,0,24
+2023,Inner Regional Australia,17-25,speed_fines,36114,0,138
+2023,Inner Regional Australia,17-25,unlicensed_driving,847,0,1960
+2023,Inner Regional Australia,26-39,mobile_phone_use,2329,0,7
+2023,Inner Regional Australia,26-39,non_wearing_seatbelts,2642,0,21
+2023,Inner Regional Australia,26-39,speed_fines,82084,0,144
+2023,Inner Regional Australia,26-39,unlicensed_driving,2128,0,3375
+2023,Inner Regional Australia,40-64,mobile_phone_use,2134,0,8
+2023,Inner Regional Australia,40-64,non_wearing_seatbelts,2428,0,14
+2023,Inner Regional Australia,40-64,speed_fines,111008,0,58
+2023,Inner Regional Australia,40-64,unlicensed_driving,1465,0,1999
+2023,Inner Regional Australia,65 and over,mobile_phone_use,311,0,0
+2023,Inner Regional Australia,65 and over,non_wearing_seatbelts,729,0,0
+2023,Inner Regional Australia,65 and over,speed_fines,36207,0,2
+2023,Inner Regional Australia,65 and over,unlicensed_driving,133,0,134
+2023,Inner Regional Australia,All Age,mobile_phone_use,1499,0,0
+2023,Inner Regional Australia,All Age,non_wearing_seatbelts,4473,0,0
+2023,Inner Regional Australia,All Age,speed_fines,34623,0,0
+2023,Inner Regional Australia,All Age,unlicensed_driving,5,0,0
+2023,Major Cities of Australia,0-16,mobile_phone_use,21,0,1
+2023,Major Cities of Australia,0-16,non_wearing_seatbelts,40,0,5
+2023,Major Cities of Australia,0-16,speed_fines,114,0,23
+2023,Major Cities of Australia,0-16,unlicensed_driving,70,13,390
+2023,Major Cities of Australia,17-25,mobile_phone_use,7310,0,45
+2023,Major Cities of Australia,17-25,non_wearing_seatbelts,2821,0,44
+2023,Major Cities of Australia,17-25,speed_fines,100055,0,422
+2023,Major Cities of Australia,17-25,unlicensed_driving,2668,30,5918
+2023,Major Cities of Australia,26-39,mobile_phone_use,15483,0,72
+2023,Major Cities of Australia,26-39,non_wearing_seatbelts,6574,0,76
+2023,Major Cities of Australia,26-39,speed_fines,288588,0,333
+2023,Major Cities of Australia,26-39,unlicensed_driving,5284,118,8710
+2023,Major Cities of Australia,40-64,mobile_phone_use,13387,0,38
+2023,Major Cities of Australia,40-64,non_wearing_seatbelts,5976,0,38
+2023,Major Cities of Australia,40-64,speed_fines,443158,0,150
+2023,Major Cities of Australia,40-64,unlicensed_driving,2941,54,5577
+2023,Major Cities of Australia,65 and over,mobile_phone_use,1591,0,1
+2023,Major Cities of Australia,65 and over,non_wearing_seatbelts,1386,0,5
+2023,Major Cities of Australia,65 and over,speed_fines,123735,0,1
+2023,Major Cities of Australia,65 and over,unlicensed_driving,227,0,272
+2023,Major Cities of Australia,All Age,mobile_phone_use,15814,0,0
+2023,Major Cities of Australia,All Age,non_wearing_seatbelts,9134,0,0
+2023,Major Cities of Australia,All Age,speed_fines,215222,0,0
+2023,Major Cities of Australia,All Age,unlicensed_driving,14,0,1
+2023,Outer Regional Australia,0-16,mobile_phone_use,0,0,1
+2023,Outer Regional Australia,0-16,non_wearing_seatbelts,10,0,0
+2023,Outer Regional Australia,0-16,speed_fines,16,0,4
+2023,Outer Regional Australia,0-16,unlicensed_driving,12,0,92
+2023,Outer Regional Australia,17-25,mobile_phone_use,163,0,3
+2023,Outer Regional Australia,17-25,non_wearing_seatbelts,373,0,5
+2023,Outer Regional Australia,17-25,speed_fines,7193,0,26
+2023,Outer Regional Australia,17-25,unlicensed_driving,248,0,473
+2023,Outer Regional Australia,26-39,mobile_phone_use,307,0,1
+2023,Outer Regional Australia,26-39,non_wearing_seatbelts,625,0,8
+2023,Outer Regional Australia,26-39,speed_fines,15133,0,30
+2023,Outer Regional Australia,26-39,unlicensed_driving,592,0,926
+2023,Outer Regional Australia,40-64,mobile_phone_use,255,0,0
+2023,Outer Regional Australia,40-64,non_wearing_seatbelts,559,0,5
+2023,Outer Regional Australia,40-64,speed_fines,20054,0,17
+2023,Outer Regional Australia,40-64,unlicensed_driving,399,0,581
+2023,Outer Regional Australia,65 and over,mobile_phone_use,42,0,0
+2023,Outer Regional Australia,65 and over,non_wearing_seatbelts,177,0,3
+2023,Outer Regional Australia,65 and over,speed_fines,6599,0,4
+2023,Outer Regional Australia,65 and over,unlicensed_driving,46,0,59
+2023,Outer Regional Australia,All Age,mobile_phone_use,8,0,0
+2023,Outer Regional Australia,All Age,non_wearing_seatbelts,20,0,0
+2023,Outer Regional Australia,All Age,speed_fines,4049,0,0
+2023,Outer Regional Australia,All Age,unlicensed_driving,2,0,0
+2023,Remote Australia,0-16,unlicensed_driving,4,0,8
+2023,Remote Australia,17-25,mobile_phone_use,3,0,1
+2023,Remote Australia,17-25,non_wearing_seatbelts,23,0,1
+2023,Remote Australia,17-25,speed_fines,323,0,8
+2023,Remote Australia,17-25,unlicensed_driving,16,0,88
+2023,Remote Australia,26-39,mobile_phone_use,11,0,0
+2023,Remote Australia,26-39,non_wearing_seatbelts,34,0,2
+2023,Remote Australia,26-39,speed_fines,655,0,4
+2023,Remote Australia,26-39,unlicensed_driving,24,0,137
+2023,Remote Australia,40-64,mobile_phone_use,2,0,0
+2023,Remote Australia,40-64,non_wearing_seatbelts,56,0,0
+2023,Remote Australia,40-64,speed_fines,817,0,3
+2023,Remote Australia,40-64,unlicensed_driving,14,0,80
+2023,Remote Australia,65 and over,mobile_phone_use,2,0,0
+2023,Remote Australia,65 and over,non_wearing_seatbelts,14,0,0
+2023,Remote Australia,65 and over,speed_fines,248,0,0
+2023,Remote Australia,65 and over,unlicensed_driving,0,0,5
+2023,Remote Australia,All Age,speed_fines,2,0,0
+2023,Very Remote Australia,0-16,speed_fines,1,0,0
+2023,Very Remote Australia,0-16,unlicensed_driving,0,0,1
+2023,Very Remote Australia,17-25,mobile_phone_use,2,0,0
+2023,Very Remote Australia,17-25,non_wearing_seatbelts,8,0,1
+2023,Very Remote Australia,17-25,speed_fines,46,0,0
+2023,Very Remote Australia,17-25,unlicensed_driving,2,0,29
+2023,Very Remote Australia,26-39,mobile_phone_use,1,0,0
+2023,Very Remote Australia,26-39,non_wearing_seatbelts,16,0,1
+2023,Very Remote Australia,26-39,speed_fines,91,0,1
+2023,Very Remote Australia,26-39,unlicensed_driving,8,0,56
+2023,Very Remote Australia,40-64,mobile_phone_use,2,0,0
+2023,Very Remote Australia,40-64,non_wearing_seatbelts,7,0,1
+2023,Very Remote Australia,40-64,speed_fines,83,0,0
+2023,Very Remote Australia,40-64,unlicensed_driving,5,0,22
+2023,Very Remote Australia,65 and over,non_wearing_seatbelts,1,0,0
+2023,Very Remote Australia,65 and over,speed_fines,21,0,0
+2023,Very Remote Australia,65 and over,unlicensed_driving,0,0,1
+2024,All Regions,0-16,mobile_phone_use,2113,0,2
+2024,All Regions,0-16,non_wearing_seatbelts,825,4,19
+2024,All Regions,0-16,speed_fines,19400,5,27
+2024,All Regions,0-16,unlicensed_driving,651,349,815
+2024,All Regions,17-25,mobile_phone_use,14257,1,61
+2024,All Regions,17-25,non_wearing_seatbelts,7903,26,364
+2024,All Regions,17-25,speed_fines,220712,11,581
+2024,All Regions,17-25,unlicensed_driving,9321,824,6166
+2024,All Regions,26-39,mobile_phone_use,37780,3,110
+2024,All Regions,26-39,non_wearing_seatbelts,19272,30,606
+2024,All Regions,26-39,speed_fines,468432,29,890
+2024,All Regions,26-39,unlicensed_driving,14986,1931,11248
+2024,All Regions,40-64,mobile_phone_use,36275,1,76
+2024,All Regions,40-64,non_wearing_seatbelts,18419,25,316
+2024,All Regions,40-64,speed_fines,653122,20,850
+2024,All Regions,40-64,unlicensed_driving,9432,1004,7811
+2024,All Regions,65 and over,mobile_phone_use,4650,0,2
+2024,All Regions,65 and over,non_wearing_seatbelts,4377,0,24
+2024,All Regions,65 and over,speed_fines,167863,0,79
+2024,All Regions,65 and over,unlicensed_driving,710,24,329
+2024,All Regions,All Age,mobile_phone_use,147583,0,0
+2024,All Regions,All Age,non_wearing_seatbelts,72279,0,0
+2024,All Regions,All Age,speed_fines,723571,0,0
+2024,All Regions,All Age,unlicensed_driving,162,0,2
+2024,Inner Regional Australia,0-16,mobile_phone_use,4,0,2
+2024,Inner Regional Australia,0-16,non_wearing_seatbelts,15,0,3
+2024,Inner Regional Australia,0-16,speed_fines,76,1,14
+2024,Inner Regional Australia,0-16,unlicensed_driving,16,0,126
+2024,Inner Regional Australia,17-25,mobile_phone_use,929,0,5
+2024,Inner Regional Australia,17-25,non_wearing_seatbelts,1160,0,31
+2024,Inner Regional Australia,17-25,speed_fines,28095,3,177
+2024,Inner Regional Australia,17-25,unlicensed_driving,447,0,1800
+2024,Inner Regional Australia,26-39,mobile_phone_use,2021,0,8
+2024,Inner Regional Australia,26-39,non_wearing_seatbelts,2595,0,34
+2024,Inner Regional Australia,26-39,speed_fines,55768,4,157
+2024,Inner Regional Australia,26-39,unlicensed_driving,983,0,3238
+2024,Inner Regional Australia,40-64,mobile_phone_use,2393,0,6
+2024,Inner Regional Australia,40-64,non_wearing_seatbelts,2883,0,5
+2024,Inner Regional Australia,40-64,speed_fines,75462,6,113
+2024,Inner Regional Australia,40-64,unlicensed_driving,681,0,2108
+2024,Inner Regional Australia,65 and over,mobile_phone_use,407,0,0
+2024,Inner Regional Australia,65 and over,non_wearing_seatbelts,1105,0,1
+2024,Inner Regional Australia,65 and over,speed_fines,27223,0,5
+2024,Inner Regional Australia,65 and over,unlicensed_driving,110,0,132
+2024,Inner Regional Australia,All Age,mobile_phone_use,1372,0,0
+2024,Inner Regional Australia,All Age,non_wearing_seatbelts,1351,0,0
+2024,Inner Regional Australia,All Age,speed_fines,1821,0,0
+2024,Inner Regional Australia,All Age,unlicensed_driving,618,0,0
+2024,Major Cities of Australia,0-16,mobile_phone_use,26,0,5
+2024,Major Cities of Australia,0-16,non_wearing_seatbelts,38,0,5
+2024,Major Cities of Australia,0-16,speed_fines,133,3,20
+2024,Major Cities of Australia,0-16,unlicensed_driving,37,15,257
+2024,Major Cities of Australia,17-25,mobile_phone_use,11246,0,82
+2024,Major Cities of Australia,17-25,non_wearing_seatbelts,3946,0,33
+2024,Major Cities of Australia,17-25,speed_fines,93380,23,609
+2024,Major Cities of Australia,17-25,unlicensed_driving,2411,42,6088
+2024,Major Cities of Australia,26-39,mobile_phone_use,27032,1,59
+2024,Major Cities of Australia,26-39,non_wearing_seatbelts,13176,1,56
+2024,Major Cities of Australia,26-39,speed_fines,236322,32,418
+2024,Major Cities of Australia,26-39,unlicensed_driving,2625,114,8424
+2024,Major Cities of Australia,40-64,mobile_phone_use,27620,1,34
+2024,Major Cities of Australia,40-64,non_wearing_seatbelts,16552,0,34
+2024,Major Cities of Australia,40-64,speed_fines,363985,16,228
+2024,Major Cities of Australia,40-64,unlicensed_driving,1307,48,5440
+2024,Major Cities of Australia,65 and over,mobile_phone_use,3835,0,5
+2024,Major Cities of Australia,65 and over,non_wearing_seatbelts,4443,0,2
+2024,Major Cities of Australia,65 and over,speed_fines,106574,0,5
+2024,Major Cities of Australia,65 and over,unlicensed_driving,230,0,312
+2024,Major Cities of Australia,All Age,mobile_phone_use,10460,0,0
+2024,Major Cities of Australia,All Age,non_wearing_seatbelts,10343,0,0
+2024,Major Cities of Australia,All Age,speed_fines,17045,0,1
+2024,Major Cities of Australia,All Age,unlicensed_driving,4508,0,2
+2024,Outer Regional Australia,0-16,mobile_phone_use,1,0,0
+2024,Outer Regional Australia,0-16,non_wearing_seatbelts,10,0,1
+2024,Outer Regional Australia,0-16,speed_fines,28,0,3
+2024,Outer Regional Australia,0-16,unlicensed_driving,10,0,27
+2024,Outer Regional Australia,17-25,mobile_phone_use,155,0,4
+2024,Outer Regional Australia,17-25,non_wearing_seatbelts,358,0,8
+2024,Outer Regional Australia,17-25,speed_fines,8502,2,39
+2024,Outer Regional Australia,17-25,unlicensed_driving,120,0,472
+2024,Outer Regional Australia,26-39,mobile_phone_use,266,0,0
+2024,Outer Regional Australia,26-39,non_wearing_seatbelts,719,0,8
+2024,Outer Regional Australia,26-39,speed_fines,16943,3,56
+2024,Outer Regional Australia,26-39,unlicensed_driving,308,0,842
+2024,Outer Regional Australia,40-64,mobile_phone_use,263,0,2
+2024,Outer Regional Australia,40-64,non_wearing_seatbelts,676,0,7
+2024,Outer Regional Australia,40-64,speed_fines,22900,5,42
+2024,Outer Regional Australia,40-64,unlicensed_driving,193,0,448
+2024,Outer Regional Australia,65 and over,mobile_phone_use,36,0,0
+2024,Outer Regional Australia,65 and over,non_wearing_seatbelts,270,0,1
+2024,Outer Regional Australia,65 and over,speed_fines,7896,0,7
+2024,Outer Regional Australia,65 and over,unlicensed_driving,79,0,51
+2024,Outer Regional Australia,All Age,mobile_phone_use,116,0,0
+2024,Outer Regional Australia,All Age,non_wearing_seatbelts,176,0,0
+2024,Outer Regional Australia,All Age,speed_fines,472,0,0
+2024,Outer Regional Australia,All Age,unlicensed_driving,829,0,0
+2024,Remote Australia,0-16,mobile_phone_use,0,0,0
+2024,Remote Australia,0-16,non_wearing_seatbelts,0,0,0
+2024,Remote Australia,0-16,speed_fines,5,0,0
+2024,Remote Australia,0-16,unlicensed_driving,0,0,6
+2024,Remote Australia,17-25,mobile_phone_use,13,0,1
+2024,Remote Australia,17-25,non_wearing_seatbelts,47,0,5
+2024,Remote Australia,17-25,speed_fines,903,0,4
+2024,Remote Australia,17-25,unlicensed_driving,8,0,69
+2024,Remote Australia,26-39,mobile_phone_use,20,0,2
+2024,Remote Australia,26-39,non_wearing_seatbelts,78,0,3
+2024,Remote Australia,26-39,speed_fines,1762,2,4
+2024,Remote Australia,26-39,unlicensed_driving,30,0,140
+2024,Remote Australia,40-64,mobile_phone_use,21,0,0
+2024,Remote Australia,40-64,non_wearing_seatbelts,69,0,1
+2024,Remote Australia,40-64,speed_fines,2228,0,6
+2024,Remote Australia,40-64,unlicensed_driving,21,0,57
+2024,Remote Australia,65 and over,mobile_phone_use,4,0,0
+2024,Remote Australia,65 and over,non_wearing_seatbelts,26,0,0
+2024,Remote Australia,65 and over,speed_fines,637,0,0
+2024,Remote Australia,65 and over,unlicensed_driving,14,0,2
+2024,Remote Australia,All Age,mobile_phone_use,0,0,0
+2024,Remote Australia,All Age,non_wearing_seatbelts,0,0,0
+2024,Remote Australia,All Age,speed_fines,15,0,0
+2024,Remote Australia,All Age,unlicensed_driving,170,0,0
+2024,Very Remote Australia,0-16,speed_fines,0,0,1
+2024,Very Remote Australia,0-16,unlicensed_driving,0,0,3
+2024,Very Remote Australia,17-25,mobile_phone_use,6,0,0
+2024,Very Remote Australia,17-25,non_wearing_seatbelts,31,0,0
+2024,Very Remote Australia,17-25,speed_fines,313,0,2
+2024,Very Remote Australia,17-25,unlicensed_driving,2,0,26
+2024,Very Remote Australia,26-39,mobile_phone_use,10,0,1
+2024,Very Remote Australia,26-39,non_wearing_seatbelts,89,0,2
+2024,Very Remote Australia,26-39,speed_fines,701,1,3
+2024,Very Remote Australia,26-39,unlicensed_driving,5,0,36
+2024,Very Remote Australia,40-64,mobile_phone_use,10,0,0
+2024,Very Remote Australia,40-64,non_wearing_seatbelts,68,0,1
+2024,Very Remote Australia,40-64,speed_fines,841,1,3
+2024,Very Remote Australia,40-64,unlicensed_driving,5,0,22
+2024,Very Remote Australia,65 and over,mobile_phone_use,2,0,0
+2024,Very Remote Australia,65 and over,non_wearing_seatbelts,16,0,0
+2024,Very Remote Australia,65 and over,speed_fines,200,0,0
+2024,Very Remote Australia,65 and over,unlicensed_driving,4,0,3
+2024,Very Remote Australia,All Age,speed_fines,3,0,0
+2024,Very Remote Australia,All Age,unlicensed_driving,117,0,0
