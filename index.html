@@ -23,6 +23,9 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#temporal">Temporal</a></li>
+                <li><a href="#geographic">Geographic</a></li>
+                <li><a href="#demographic">Demographic</a></li>
+                <li><a href="#correlation">Correlation</a></li>
                 <li><a href="#insights">Insights</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
@@ -44,6 +47,23 @@
             </div>
             <h1>Uncovering Patterns in<br>Road Safety Enforcement</h1>
             <p>An interactive exploration of enforcement data across Australian jurisdictions that reveals where, when, and who is most affected.</p>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-value" data-target="63458809">0</div>
+                    <div class="stat-label">Total Fines Issued</div>
+                    <div class="stat-delta">Across all jurisdictions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="9184">0</div>
+                    <div class="stat-label">Arrests Made</div>
+                    <div class="stat-delta">Criminal enforcement</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" data-target="122732">0</div>
+                    <div class="stat-label">Charges Laid</div>
+                    <div class="stat-delta">Legal proceedings</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -76,6 +96,112 @@
                         <strong>Data Quality Note:</strong> January records <strong>56.5M</strong> in fines while all other months average ~640K. This 88× difference suggests either an annual rollup in Month 1, a decimal error, or a genuine single-month enforcement blitz. Toggle views above to explore both perspectives.
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Geographic sectio -->
+    <section class="section" id="geographic">
+        <div class="section-header">
+            <span class="section-tag">Geographic Distribution</span>
+            <h2>Enforcement Varies Dramatically by State</h2>
+            <p class="lead">Victoria and Queensland lead in fine volume, but Western Australia and South Australia show proportionally higher arrest rates, suggesting different policing philosophies across jurisdictions.</p>
+        </div>
+        <div class="chart-grid two-col">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Fines by Jurisdiction</div>
+                        <div class="chart-subtitle">Absolute volume comparison (AUD)</div>
+                    </div>
+                </div>
+                <div class="chart-container" id="jurisdictionFinesChart"></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Arrests vs Charges</div>
+                        <div class="chart-subtitle">Criminal enforcement intensity</div>
+                    </div>
+                    <div class="chart-controls">
+                        <button class="btn-toggle active" data-metric="arrests">Arrests</button>
+                        <button class="btn-toggle" data-metric="charges">Charges</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="jurisdictionArrestsChart"></div>
+            </div>
+        </div>
+        <div class="insight-box">
+            <h4>Geographic Insights</h4>
+            <ul>
+                <li>Victoria issues the most fines ($20.9M).</li>
+                <li>Western Australia shows the strongest arrest and fine ratio, indicating more aggressive criminal enforcement</li>
+                <li>NSW and Queensland dominate sheer volume, together accounting for 55% of all national fines</li>
+                <li>Tasmania and ACT show lower absolute numbers but maintain consistent enforcement across all three metrics</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Demographic section -->
+    <section class="section" id="demographic">
+        <div class="section-header">
+            <span class="section-tag">Demographic Analysis</span>
+            <h2>Age & Offence Type Intersection</h2>
+            <p class="lead">Young adults (17-25) and middle-aged drivers (40-64) represent the highest-risk cohorts, but for different reasons like speed or unlicensed driving patterns diverge sharply by age.</p>
+        </div>
+        <div class="chart-grid two-col">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Fines by Age Group & Offence</div>
+                        <div class="chart-subtitle">Grouped comparison across offence types</div>
+                    </div>
+                    <div class="chart-controls">
+                        <button class="btn-toggle active" data-age-view="fines">Fines</button>
+                        <button class="btn-toggle" data-age-view="arrests">Arrests</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="ageGroupChart"></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Regional Intensity Heatmap</div>
+                        <div class="chart-subtitle">Fine density by location and age</div>
+                    </div>
+                    <div class="chart-controls">
+                        <button class="btn-toggle active" data-heatmap="speed">Speed</button>
+                        <button class="btn-toggle" data-heatmap="mobile">Mobile</button>
+                        <button class="btn-toggle" data-heatmap="seatbelt">Seatbelt</button>
+                        <button class="btn-toggle" data-heatmap="unlicensed">Unlicensed</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="heatmapChart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Correlation section -->
+    <section class="section" id="correlation">
+        <div class="section-header">
+            <span class="section-tag">Correlation Analysis</span>
+            <h2>Fines, Arrests & Charges: The Enforcement Triangle</h2>
+            <p class="lead">This multi-line chart reveals how different locations and age groups cluster across the three enforcement dimensions like fines, arrests, and charges on a logarithmic scale.</p>
+        </div>
+        <div class="chart-grid">
+            <div class="chart-card full-width">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Enforcement Metrics Comparison</div>
+                        <div class="chart-subtitle">Fines, Arrests & Charges across categories</div>
+                    </div>
+                    <div class="chart-controls">
+                        <button class="btn-toggle active" data-line="location">By Location</button>
+                        <button class="btn-toggle" data-line="age">By Age Group</button>
+                    </div>
+                </div>
+                <div class="chart-container" id="lineChart"></div>
+                <div class="legend" id="lineLegend"></div>
             </div>
         </div>
     </section>
