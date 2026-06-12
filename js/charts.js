@@ -1033,13 +1033,18 @@ function drawLineChart() {
         .range([0, width])
         .padding(0.3);
 
+    const maxValue = d3.max(data, d => Math.max(d.fines, d.arrests, d.charges));
     const y = d3.scaleLog()
-        .domain([1, d3.max(data, d => Math.max(d.fines, d.arrests, d.charges)) * 1.2])
+        .domain([1, maxValue * 1.2])
         .range([height, 0]);
+
+    const tickValues = [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000]
+        .filter(v => v <= maxValue * 1.2);
+    if (!tickValues.includes(1)) tickValues.unshift(1);
 
     svg.append("g")
         .attr("class", "grid")
-        .call(d3.axisLeft(y).tickSize(-width).tickFormat("").ticks(6));
+        .call(d3.axisLeft(y).tickSize(-width).tickFormat("").tickValues(tickValues));
 
     svg.append("g")
         .attr("class", "axis")
@@ -1052,7 +1057,7 @@ function drawLineChart() {
 
     svg.append("g")
         .attr("class", "axis")
-        .call(d3.axisLeft(y).ticks(6).tickFormat(d => {
+        .call(d3.axisLeft(y).tickValues(tickValues).tickFormat(d => {
             if (d >= 1e6) return (d/1e6).toFixed(0) + "M";
             if (d >= 1e3) return (d/1e3).toFixed(0) + "K";
             return d;
