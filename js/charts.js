@@ -261,7 +261,8 @@ function drawMonthlyChart(view = 'all') {
         .domain(data.map(d => d.name))
         .range([0, width])
         .padding(0.35);
-
+        
+//log scale
     const y = useLog 
         ? d3.scaleLog().domain([50000, d3.max(data, d => d.fines)]).range([height, 0])
         : d3.scaleLinear().domain([0, d3.max(data, d => d.fines) * 1.05]).range([height, 0]);
